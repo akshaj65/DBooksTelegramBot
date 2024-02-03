@@ -5,6 +5,8 @@ import com.akshaj.exception.GeneralException;
 import com.akshaj.model.Book;
 import com.akshaj.model.Books;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +40,11 @@ public class DBooksAPIClient {
     }
 
     public List<Book> searchBooks(String keyword){
+        String encodedKeyword =  java.net.URLEncoder.encode(keyword, StandardCharsets.UTF_8);
         String url=MY_BASE_URL
                 .concat(SEARCH)
                 .concat(FORWARD_SLASH)
-                .concat(keyword);
+                .concat(encodedKeyword);
         Books books = null;
         try {
             books = httpClientWrapper

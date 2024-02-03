@@ -1,6 +1,8 @@
 package com.akshaj;
 
 import com.akshaj.model.Book;
+import com.akshaj.model.ChatSession;
+import com.akshaj.repository.ChatSessionRepository;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -8,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.akshaj.Constants.*;
 
@@ -52,19 +55,8 @@ public class KeyboardFactory {
 
     public static class InlineKeyboardMarkupFactory{
         public static InlineKeyboardMarkup createBooksKeyboardMarkup(List<Book> bookList) {
-            List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+            List<List<InlineKeyboardButton>> keyboard = createKeyboardRows(bookList,0);
 
-            int count=1;
-            for( Book book : bookList){
-                if(count==20){
-                    break;
-                }
-                count++;
-                InlineKeyboardButton button= new InlineKeyboardButton(book.getTitle());
-                button.setCallbackData(book.getId());
-                keyboard.add(List.of(button));  //single button each row
-
-            }
             return new InlineKeyboardMarkup(keyboard);
         }
         public static InlineKeyboardMarkup createSingleButtonKeyboardMarkup(String name,String callbackData) {
@@ -76,6 +68,39 @@ public class KeyboardFactory {
 
             return  new InlineKeyboardMarkup(List.of(row));
         }
+
+        public static  List<List<InlineKeyboardButton>> createKeyboardRows(List<Book> bookList,int pageNum){
+            int startIndex=pageNum * PAGE_OFFSET;
+            int endIndex=Math.min(startIndex+PAGE_OFFSET,bookList.size());
+            List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+            List<Book> subList =  bookList.subList(startIndex, endIndex);
+            for( Book book :subList){
+                InlineKeyboardButton button= new InlineKeyboardButton(book.getTitle());
+                button.setCallbackData(book.getId());
+                keyboard.add(List.of(button));  //single button each row
+            }
+            List<InlineKeyboardButton> navButtons=  new ArrayList<>();
+            if(startIndex>0){
+                navButtons.add(
+                        InlineKeyboardButton.builder()
+                                .text("<< Prev")
+                                .callbackData(PREV)
+                                .build()
+                );
+            }
+            if(endIndex!=bookList.size()){
+                navButtons.add(
+                        InlineKeyboardButton.builder()
+                                .text("Next >>")
+                                .callbackData(NEXT)
+                                .build()
+                );
+            }
+            keyboard.add(navButtons);
+
+            return keyboard;
+        }
+
     }
 
 

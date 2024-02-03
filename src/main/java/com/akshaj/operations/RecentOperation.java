@@ -4,6 +4,7 @@ import com.akshaj.BotLogger;
 import com.akshaj.exception.GeneralException;
 import com.akshaj.model.Book;
 import com.akshaj.model.ChatSession;
+import com.akshaj.repository.ChatSessionRepository;
 import com.akshaj.service.DBooksAPIClient;
 import com.akshaj.utils.TelegramInterfaceHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -26,17 +27,20 @@ public class RecentOperation implements Operation{
     public RecentOperation(AbsSender absSender){
         dBooksAPIClient=new DBooksAPIClient();
         telegramInterfaceHandler=new TelegramInterfaceHandler(absSender);
+
     }
     @Override
-    public void execute( Update update, Map<String, ChatSession> session)  {
+    public void execute( Update update)  {
         BotLogger.logDebug("Recent Operation");
         String userId=getUserId(update);
-        session.get(userId).setCurrentBotState(RECENT_STATE);
-        Long chatId=session.get(userId).getChatId();
+        ChatSession session= ChatSessionRepository.getInstance().getSession(userId);
+        session.setCurrentBotState(RECENT_STATE);
+        Long chatId= session.getChatId();
         List<Book> bookList= dBooksAPIClient.getRecentBooks();
         if(!bookList.isEmpty()) {
             telegramInterfaceHandler.sendMsgWithKeyboard(chatId,"Recent Books",CANCEL_KEYBOARD);
-            telegramInterfaceHandler.showBooksInInlineKeyboard(getChatId(update),bookList);
+            session.setCurrentBookList(bookList);
+            telegramInterfaceHandler.showBooksInInlineKeyboard(chatId,bookList);
 
         }else {
             telegramInterfaceHandler.sendMsgWithKeyboard( chatId,"No Recent Books found",MAIN_KEYBOARD); //  no books then add main keyboard

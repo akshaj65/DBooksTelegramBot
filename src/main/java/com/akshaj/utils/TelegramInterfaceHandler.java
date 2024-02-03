@@ -3,6 +3,8 @@ package com.akshaj.utils;
 import com.akshaj.BotEnums;
 import com.akshaj.BotLogger;
 import com.akshaj.KeyboardFactory;
+import com.akshaj.model.ChatSession;
+import com.akshaj.repository.ChatSessionRepository;
 import com.akshaj.repository.TFilesRepository;
 import com.akshaj.model.Book;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -10,9 +12,11 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -25,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.akshaj.BotEnums.KeyboardType.MAIN_KEYBOARD;
 import static com.akshaj.Constants.DOWNLOAD;
 import static com.akshaj.Constants.END_SERVICE;
+import static com.akshaj.KeyboardFactory.InlineKeyboardMarkupFactory.createBooksKeyboardMarkup;
 
 public class TelegramInterfaceHandler {
 
@@ -66,20 +71,15 @@ public class TelegramInterfaceHandler {
     }
 
 
-    public void showBooksInInlineKeyboard(Long chatId, List<Book> bookList) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText("Choose a Book to get Info:");
-        message.setReplyMarkup(
-                KeyboardFactory.InlineKeyboardMarkupFactory.createBooksKeyboardMarkup(bookList)
-        );
-
+    public void showBooksInInlineKeyboard(Long chatId, List<Book> bookList)  {
+              SendMessage message = new SendMessage();
+              message.setChatId(chatId);
+              message.setText("Choose a Book to get Info:");
+              message.setReplyMarkup(
+                      createBooksKeyboardMarkup(bookList)
+              );
         try {
-              absSender.execute(message);
-
-//            Message sentMessage=absSender.execute(message);
-//            deletableMsgChatIdMsgId[0]=chatId.toString();
-//            deletableMsgChatIdMsgId[1]=sentMessage.getMessageId().toString();
+             absSender.execute(message);
         } catch (TelegramApiException e) {
             BotLogger.logError("Could Not Send Message"+e.getMessage(),e);
         }
@@ -132,6 +132,20 @@ public class TelegramInterfaceHandler {
         }
     }
 
+    public void editInlineKeyboard(CallbackQuery callbackQuery,InlineKeyboardMarkup keyboardMarkup){
+        EditMessageReplyMarkup newMessage = EditMessageReplyMarkup
+                .builder()
+                .chatId(callbackQuery.getMessage().getChatId())
+                .inlineMessageId(callbackQuery.getInlineMessageId())
+                .messageId(callbackQuery.getMessage().getMessageId())
+                .replyMarkup(keyboardMarkup)
+                .build();
+        try {
+            absSender.execute(newMessage);
+        } catch (TelegramApiException e) {
+            BotLogger.logError(e.getMessage(),e);
+        }
+    }
     public void sendBookInfoWithDownloadButton(Long chatId,Book book) {
         try {
 

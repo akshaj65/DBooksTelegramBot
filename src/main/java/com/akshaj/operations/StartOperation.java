@@ -3,6 +3,7 @@ package com.akshaj.operations;
 import com.akshaj.BotLogger;
 import com.akshaj.exception.GeneralException;
 import com.akshaj.model.ChatSession;
+import com.akshaj.repository.ChatSessionRepository;
 import com.akshaj.service.DBooksAPIClient;
 import com.akshaj.utils.TelegramInterfaceHandler;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -22,12 +23,14 @@ public class StartOperation implements Operation{
     }
 
     @Override
-    public void execute(Update update, Map<String, ChatSession> session) {
+    public void execute(Update update) {
         BotLogger.logInfo("Start Operation");
             String userId= getUserId(update);
-            session.get(userId).setCurrentBotState(START_STATE);
-            Long chatId=session.get(userId).getChatId();
-            String firstName=session.get(userId)
+           ChatSession session= ChatSessionRepository.getInstance().getSession(userId);
+
+            session.setCurrentBotState(START_STATE);
+            Long chatId=session.getChatId();
+            String firstName= session
                     .getUser()
                     .getFirstName()
                     .replaceAll("[!#$_`*|=+\\-{\\[.'\"<)}]","\\\\$0");

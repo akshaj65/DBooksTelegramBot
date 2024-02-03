@@ -23,7 +23,7 @@ public class DownloadOperation implements Operation{
         telegramInterfaceHandler=new TelegramInterfaceHandler(absSender);
     }
     @Override
-    public void execute(Update update, Map<String, ChatSession> session){
+    public void execute(Update update){
         try {
             BotLogger.logInfo("Download operation");
 

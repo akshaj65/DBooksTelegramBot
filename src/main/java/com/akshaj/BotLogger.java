@@ -21,20 +21,22 @@ public class BotLogger {
 
     public static void logInfo(String msg){
         getLogger().info(msg);
-        System.out.println(msg);
+//        System.out.println(msg);
     }
     public static void logInfo(String msg,Throwable throwable){
         getLogger().info("Method Name: "+getMethodName(throwable)+"  Info: "+msg);
-        System.out.println(msg);
+//        System.out.println(msg);
+//        throwable.printStackTrace();
     }
     public static void logError(String msg,Throwable throwable){
-        getLogger().error("Method Name: "+getMethodName(throwable)+"  Error: "  +msg,throwable);
+        getLogger().error("Method Name: "+getMethodName(throwable)+"  Error: "  +msg);
         System.out.println(msg);
+//        throwable.printStackTrace();
     }
 
     public static void logDebug(String msg){
         getLogger().debug(msg);
-        System.out.println(msg);
+//        System.out.println(msg);
     }
 
     private static String getMethodName(Throwable throwable){

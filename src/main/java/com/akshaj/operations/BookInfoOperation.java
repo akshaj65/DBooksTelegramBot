@@ -25,7 +25,7 @@ public class BookInfoOperation implements Operation{
         telegramInterfaceHandler=new TelegramInterfaceHandler(absSender);
     }
     @Override
-    public void execute( Update update, Map<String, ChatSession> session)  {
+    public void execute( Update update)  {
         BotLogger.logInfo("BookInfo operation");
 
         CallbackQuery callbackQuery= update.getCallbackQuery();
