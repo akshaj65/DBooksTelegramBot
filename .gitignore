@@ -40,3 +40,5 @@ build/
 
 ### config file ###
 src/main/resources/config.properties
+
+logs/
