@@ -5,7 +5,6 @@ import com.akshaj.exception.GeneralException;
 import com.akshaj.model.Book;
 import com.akshaj.model.Books;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 import static com.akshaj.Constants.*;
 
 public class DBooksAPIClient {
-    private static final String MY_BASE_URL="https://www.dbooks.org/api/";
     private final HttpClientWrapper httpClientWrapper;
     public DBooksAPIClient(){
         httpClientWrapper =new HttpClientWrapper();

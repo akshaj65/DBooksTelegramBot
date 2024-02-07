@@ -1,7 +1,6 @@
 package com.akshaj.operations;
 
 import com.akshaj.BotLogger;
-import com.akshaj.KeyboardFactory;
 import com.akshaj.model.Book;
 import com.akshaj.model.ChatSession;
 import com.akshaj.repository.ChatSessionRepository;
@@ -9,11 +8,9 @@ import com.akshaj.utils.TelegramInterfaceHandler;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.akshaj.Constants.*;

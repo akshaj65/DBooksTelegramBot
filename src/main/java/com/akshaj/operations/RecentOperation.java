@@ -1,7 +1,6 @@
 package com.akshaj.operations;
 
 import com.akshaj.BotLogger;
-import com.akshaj.exception.GeneralException;
 import com.akshaj.model.Book;
 import com.akshaj.model.ChatSession;
 import com.akshaj.repository.ChatSessionRepository;
@@ -11,13 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.List;
-import java.util.Map;
-
 import static com.akshaj.BotEnums.KeyboardType.CANCEL_KEYBOARD;
 import static com.akshaj.BotEnums.KeyboardType.MAIN_KEYBOARD;
 import static com.akshaj.BotEnums.UserState.RECENT_STATE;
-import static com.akshaj.utils.TelegramInterfaceHandler.*;
-import static com.akshaj.utils.Utils.getChatId;
 import static com.akshaj.utils.Utils.getUserId;
 
 public class RecentOperation implements Operation{

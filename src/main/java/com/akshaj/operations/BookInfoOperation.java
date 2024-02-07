@@ -3,7 +3,6 @@ package com.akshaj.operations;
 import com.akshaj.repository.BookRepository;
 import com.akshaj.BotLogger;
 import com.akshaj.model.Book;
-import com.akshaj.model.ChatSession;
 import com.akshaj.service.DBooksAPIClient;
 import com.akshaj.utils.TelegramInterfaceHandler;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
