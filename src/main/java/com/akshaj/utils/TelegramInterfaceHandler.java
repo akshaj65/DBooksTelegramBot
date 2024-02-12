@@ -113,7 +113,7 @@ public class TelegramInterfaceHandler {
                 BotLogger.logDebug("bookId "+book.getId());
                 TFilesRepository.getInstance().addFile(book.getId(),fileId);
             } catch (IOException | TelegramApiException e) {
-                BotLogger.logError("Error while downloading",e);
+                BotLogger.logError("Error while downloading ",e);
                 sendMsgWithKeyboard(chatId,"Error while downloading "+book.getTitle() +e.getMessage(),
                             MAIN_KEYBOARD);
             }

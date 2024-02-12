@@ -30,7 +30,7 @@ public class HttpClientWrapper {
             }
             return gson.fromJson(response.body(),tClass);
         } catch (Exception e) {
-            throw new GeneralException("Exception in HttpClient"+e.getMessage());
+            throw new GeneralException("Exception in HttpClient "+e.getMessage());
         }
 
 
