@@ -1,13 +1,12 @@
 # DBOOKS Telegram Bot
 
-
 DBooksTelegramBot is a Telegram bot designed to assist users in finding and downloading books
 
 This bot uses [dBooks API](https://www.dbooks.org/api/) .
 
 
 
-![App Screenshot](https://via.placeholder.com/468x300?text=video+goes+here)
+https://github.com/akshaj65/DBooksTelegramBot/assets/57281244/a8d83de0-3b65-459c-b269-8fdd1b481302
 
 
 ## Features
